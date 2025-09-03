@@ -1,0 +1,32 @@
+/* model.css */
+
+/* Premium Gradient Text */
+.gradient-text {
+  background: linear-gradient(-45deg, #1e40af, #4f46e5, #9333ea);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease infinite;
+  transition: background 1s ease;
+  font-weight: 800;
+}
+
+/* Hover effect – shifts into warm luxury tones */
+.gradient-text:hover {
+  background: linear-gradient(-45deg, #fb923c, #ef4444, #facc15);
+  background-size: 300% 300%;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* Keyframes for smooth gradient movement */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

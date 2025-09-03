@@ -1,19 +1,14 @@
-import { connectDB } from "@/lib/mongodb";
+import { NextResponse } from "next/server";
+import dbConnect from "@/lib/mongodb";
 import Traffic from "@/models/Traffic";
 
 export async function GET() {
-  await connectDB();
-  const logs = await Traffic.aggregate([
-    {
-      $group: {
-        _id: { $dateToString: { format: "%Y-%m-%d", date: "$timestamp" } },
-        visits: { $sum: 1 },
-      },
-    },
-    { $sort: { _id: 1 } },
-  ]);
-
-  return Response.json(
-    logs.map((l) => ({ date: l._id, visits: l.visits }))
-  );
+  try {
+    await dbConnect();
+    const traffic = await Traffic.find({}).sort({ date: -1 }).limit(30);
+    return NextResponse.json(traffic);
+  } catch (err) {
+    console.error("❌ Traffic API Error:", err.message);
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
 }

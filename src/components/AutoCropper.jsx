@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { PDFDocument } from "pdf-lib";
 import HistoryPanel from "./HistoryPanel";
 
-export default function AutoCropper() {
+export default function AutoCropper({ onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -32,9 +32,9 @@ export default function AutoCropper() {
           // ⚡ Crop top half + trim 90px bottom
           const cropBox = {
             left: 0,
-            bottom: halfHeight + 36.5, // shift up by 90px
+            bottom: halfHeight + 36.5,
             right: width,
-            top: height,
+            top: height - 20,
           };
 
           const [embeddedPage] = await outPdf.embedPages([page], [cropBox]);
@@ -84,7 +84,12 @@ export default function AutoCropper() {
         { file: fileName, date: new Date().toLocaleString(), url },
       ]);
 
+      // ✅ Mark success
       setSuccess(true);
+
+      // ✅ Trigger logging for dashboard
+      if (onSuccess) onSuccess();
+
     } catch (err) {
       console.error("❌ Error:", err);
       setError(err.message || "Unknown error");

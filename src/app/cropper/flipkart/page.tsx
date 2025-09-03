@@ -5,14 +5,15 @@ import { FileText, Package, Layers } from "lucide-react";
 import AutoCropper from "@/components/AutoCropper";
 import InvoiceCropper from "@/components/InvoiceCropper";
 import Link from "next/link";
+import { logUsage } from "@/lib/logUsage";   // ✅ import logger
 
 export default function FlipkartPage() {
   const [selected, setSelected] = useState(null);
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
-       <Link href="/" passHref>
-        <h2 className="text-3xl font-extrabold mb-8 text-center text-blue-600 cursor-pointer  hover:text-orange-500 transition-colors">
+      <Link href="/" passHref>
+        <h2 className="text-3xl font-extrabold mb-8 text-center text-blue-600 cursor-pointer hover:text-orange-500 transition-colors">
           ⚡ Flipkart Label Cropper
         </h2>
       </Link>
@@ -21,33 +22,45 @@ export default function FlipkartPage() {
       {!selected && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Shipping */}
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
             className="cursor-pointer bg-white rounded-xl shadow-lg p-8 flex flex-col items-center justify-center text-center border hover:border-blue-500 hover:shadow-xl"
             onClick={() => setSelected("shipping")}
           >
             <Package className="w-16 h-16 text-blue-600 mb-4" />
             <h3 className="text-xl font-bold">Shipping Label</h3>
-            <p className="text-gray-500 mt-2 text-sm">Crop & download shipping labels for A5 printing.</p>
+            <p className="text-gray-500 mt-2 text-sm">
+              Crop & download shipping labels for A5 printing.
+            </p>
           </motion.div>
 
           {/* Invoice */}
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
             className="cursor-pointer bg-white rounded-xl shadow-lg p-8 flex flex-col items-center justify-center text-center border hover:border-indigo-500 hover:shadow-xl"
             onClick={() => setSelected("invoice")}
           >
             <FileText className="w-16 h-16 text-indigo-600 mb-4" />
             <h3 className="text-xl font-bold">Invoice Label</h3>
-            <p className="text-gray-500 mt-2 text-sm">Crop bottom half invoice for A5 printing.</p>
+            <p className="text-gray-500 mt-2 text-sm">
+              Crop bottom half invoice for A5 printing.
+            </p>
           </motion.div>
 
           {/* Bulk (future) */}
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
             className="cursor-pointer bg-white rounded-xl shadow-lg p-8 flex flex-col items-center justify-center text-center border hover:border-green-500 hover:shadow-xl"
             onClick={() => setSelected("bulk")}
           >
             <Layers className="w-16 h-16 text-green-600 mb-4" />
             <h3 className="text-xl font-bold">Bulk Cropper</h3>
-            <p className="text-gray-500 mt-2 text-sm">Coming soon — batch crop multiple PDFs.</p>
+            <p className="text-gray-500 mt-2 text-sm">
+              Coming soon — batch crop multiple PDFs.
+            </p>
           </motion.div>
         </div>
       )}
@@ -55,8 +68,11 @@ export default function FlipkartPage() {
       {/* Shipping */}
       {selected === "shipping" && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
-          <AutoCropper />
-          <button onClick={() => setSelected(null)} className="mt-6 bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg">
+          <AutoCropper onSuccess={() => logUsage("Flipkart Cropper", "monthly")} /> {/* ✅ logs */}
+          <button
+            onClick={() => setSelected(null)}
+            className="mt-6 bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg"
+          >
             ⬅ Back
           </button>
         </motion.div>
@@ -65,8 +81,11 @@ export default function FlipkartPage() {
       {/* Invoice */}
       {selected === "invoice" && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
-          <InvoiceCropper />
-          <button onClick={() => setSelected(null)} className="mt-6 bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg">
+          <InvoiceCropper onSuccess={() => logUsage("Invoice Cropper", "monthly")} /> {/* ✅ logs */}
+          <button
+            onClick={() => setSelected(null)}
+            className="mt-6 bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg"
+          >
             ⬅ Back
           </button>
         </motion.div>
@@ -74,10 +93,17 @@ export default function FlipkartPage() {
 
       {/* Bulk */}
       {selected === "bulk" && (
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-6 flex flex-col items-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-6 flex flex-col items-center"
+        >
           <Layers className="w-20 h-20 text-green-600 mb-4" />
           <h3 className="text-2xl font-bold text-gray-700">Bulk Cropper – Coming Soon</h3>
-          <button onClick={() => setSelected(null)} className="mt-6 bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg">
+          <button
+            onClick={() => setSelected(null)}
+            className="mt-6 bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg"
+          >
             ⬅ Back
           </button>
         </motion.div>

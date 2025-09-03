@@ -21,19 +21,45 @@ export default function Home() {
     <div className="pt-20">
       {/* ✅ Hero Section */}
       <motion.div
-        initial={{ opacity: 0, y: -40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, type: "spring" }}
-        className="text-center px-6"
-      >
-        <h1 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6">
-          🚀 SMEU E-Commerce Tools
-        </h1>
-        <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
-          Professional online tools for sellers — crop labels, manage invoices,
-          track product prices, and automate GST reports.
-        </p>
-      </motion.div>
+  initial={{ opacity: 0, y: -40 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8, type: "spring" }}
+  className="text-center px-6"
+>
+  {/* 🔥 Hero Title */}
+<motion.h1
+  className="text-5xl md:text-6xl font-extrabold mb-6 cursor-pointer"
+  transition={{ duration: 0.5, ease: [0.25, 0.8, 0.25, 1] }}
+>
+  <span
+    className="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-600
+               bg-clip-text text-transparent
+               bg-[length:300%_300%]
+               animate-gradient-slow
+               transition-all duration-1000 ease-in-out
+               hover:from-orange-400 hover:via-red-500 hover:to-yellow-500"
+  >
+    SMEU E-Commerce Tools
+  </span>
+</motion.h1>
+
+
+
+
+  {/* 🔥 Subtitle */}
+  <motion.p
+    className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto cursor-pointer"
+    whileHover={{
+      color: "#f97316",         // orange on hover
+      scale: 1.05,              // slight zoom
+    }}
+    transition={{ duration: 0.3 }}
+  >
+    Professional online tools for sellers — crop labels, manage invoices,
+    track product prices, and automate GST reports.
+  </motion.p>
+</motion.div>
+
 
       {/* ✅ Label Cropper Section */}
       <div className="max-w-6xl mx-auto mt-16 px-6">

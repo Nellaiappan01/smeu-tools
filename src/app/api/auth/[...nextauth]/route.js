@@ -1,17 +1,39 @@
 import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-import clientPromise from "@/lib/mongodb";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 const handler = NextAuth({
-  adapter: MongoDBAdapter(clientPromise),
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    CredentialsProvider({
+      name: "Admin Login",
+      credentials: {
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        // ✅ Replace with DB check if needed
+        if (
+          credentials.username === process.env.ADMIN_USER &&
+          credentials.password === process.env.ADMIN_PASS
+        ) {
+          return { id: "1", name: "Commander Admin", role: "admin" };
+        }
+        return null;
+      },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async session({ session, token }) {
+      session.user.role = token.role;
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) token.role = user.role;
+      return token;
+    },
+  },
+  pages: {
+    signIn: "/login", // ✅ custom login page
+  },
 });
 
 export { handler as GET, handler as POST };
