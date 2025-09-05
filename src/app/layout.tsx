@@ -5,6 +5,16 @@ import Footer from "../components/Footer";
 import Providers from "./providers";
 import React from "react";
 
+/**
+ * NOTE:
+ * - Set NEXT_PUBLIC_SITE_URL in Vercel to your canonical URL, e.g. https://smeutools.vercel.app
+ * - Optionally set NEXT_PUBLIC_GA_ID and NEXT_PUBLIC_GOOGLE_VERIFICATION in Vercel.
+ */
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://smeutools.vercel.app";
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
+const GOOGLE_VERIFICATION = process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || ""; // optional meta token
+
 export const metadata = {
   title: "SMEU | Free Label Cropper & E-Com Tools",
   description:
@@ -17,16 +27,24 @@ export const metadata = {
     "E-commerce Automation",
   ],
   authors: [{ name: "SMEU Team" }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://smeutools.vercel.app"),
+  // safe metadataBase creation
+  metadataBase: (() => {
+    try {
+      return new URL(SITE_URL);
+    } catch {
+      // Fallback to a safe literal if env is malformed
+      return new URL("https://smeutools.vercel.app");
+    }
+  })(),
   openGraph: {
     title: "SMEU Tools | Free Label Cropper & Business Tools",
     description:
       "Crop Flipkart, Meesho, Amazon, Snapdeal, Myntra labels into thermal printer format + GST automation + business tools.",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://smeutools.vercel.app",
+    url: SITE_URL,
     siteName: "SMEU Tools",
     images: [
       {
-        url: "/og-home.png", // put your OG preview image(s) in /public
+        url: "/og-home.png",
         width: 1200,
         height: 630,
         alt: "SMEU Tools Preview",
@@ -43,11 +61,6 @@ export const metadata = {
   },
 };
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID; // set in Vercel: NEXT_PUBLIC_GA_ID=G-XXXXXXX
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://smeutools.vercel.app";
-const GOOGLE_SITE_VERIFICATION = process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || "PUT_GOOGLE_TOKEN_HERE"; 
-// If you prefer HTML-file verification, add the file to /public and DO NOT need this meta.
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -55,10 +68,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {/* Google Search Console verification meta (optional if you used file upload method) */}
-        <meta name="google-site-verification" content={GOOGLE_SITE_VERIFICATION} />
+        {/* Google Search Console verification (optional - use only if you prefer meta verification) */}
+        {GOOGLE_VERIFICATION && (
+          <meta name="google-site-verification" content={GOOGLE_VERIFICATION} />
+        )}
 
-        {/* Favicons + PWA manifest */}
+        {/* Favicons and PWA manifest (place these files in /public/) */}
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
@@ -77,12 +92,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               name: "SMEU Tools",
               url: SITE_URL,
               logo: `${SITE_URL}/og-home.png`,
-              sameAs: [], // add social profile URLs if you have them
+              sameAs: [], // add social profiles if available
             }),
           }}
         />
 
-        {/* GA4 - only include if NEXT_PUBLIC_GA_ID is set */}
+        {/* GA4 - include only when NEXT_PUBLIC_GA_ID is set in Vercel */}
         {GA_ID ? (
           <>
             <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
