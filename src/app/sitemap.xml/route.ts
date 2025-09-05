@@ -1,9 +1,12 @@
 // src/app/sitemap.xml/route.ts
 import { NextResponse } from "next/server";
 
-const base = process.env.NEXT_PUBLIC_SITE_URL || "https://smeutools.vercel.app";
+const rawBase = process.env.NEXT_PUBLIC_SITE_URL || "https://smeutools.vercel.app";
+// remove any trailing slash and accidental leading '=' characters
+const base = rawBase.replace(/^=+/, "").replace(/\/$/, "");
 
 function buildXml() {
+  const now = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
   const urls = [
     { loc: `${base}/`, changefreq: "daily", priority: "1.0" },
     { loc: `${base}/cropper/flipkart`, changefreq: "weekly", priority: "0.9" },
@@ -17,7 +20,7 @@ function buildXml() {
       (u) => `
   <url>
     <loc>${u.loc}</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
+    <lastmod>${now}</lastmod>
     <changefreq>${u.changefreq}</changefreq>
     <priority>${u.priority}</priority>
   </url>`
