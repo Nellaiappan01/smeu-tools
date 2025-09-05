@@ -3,8 +3,8 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://smeu-tools.vercel.app/
+Host: https://smeutools.vercel.app/
 
 User-agent: *
 Allow: /
-Sitemap: https://smeu-tools.vercel.app/sitemap.xml
+Sitemap: https://smeutools.vercel.app/sitemap.xml
