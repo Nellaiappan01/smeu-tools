@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url><loc>http://localhost:3002/blog/rss</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/about</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/admin</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/admin/users</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/admin/analytics</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/blog</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/business/bg-remover</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/business/gst</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/business/price-history</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/cropper/meesho</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/cropper/myntra</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/cropper/snapdeal</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/faq</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/login</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/admin/settings</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/cropper/flipkart</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/api/gst-reports</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/api/users</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/api/activity</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/api/test-db</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/api/traffic</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3002/api/orders</loc><lastmod>2025-09-04T11:15:32.593Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+</urlset>

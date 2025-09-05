@@ -5,10 +5,10 @@ import { FileText, Package, Layers } from "lucide-react";
 import AutoCropper from "@/components/AutoCropper";
 import InvoiceCropper from "@/components/InvoiceCropper";
 import Link from "next/link";
-import { logUsage } from "@/lib/logUsage";   // ✅ import logger
+import { logUsage } from "@/lib/logUsage";
 
 export default function FlipkartPage() {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(null); // "shipping" | "invoice" | "bulk" | null
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
@@ -45,7 +45,7 @@ export default function FlipkartPage() {
             <FileText className="w-16 h-16 text-indigo-600 mb-4" />
             <h3 className="text-xl font-bold">Invoice Label</h3>
             <p className="text-gray-500 mt-2 text-sm">
-              Crop bottom half invoice for A5 printing.
+              Crop invoice for A5 printing.
             </p>
           </motion.div>
 
@@ -58,9 +58,7 @@ export default function FlipkartPage() {
           >
             <Layers className="w-16 h-16 text-green-600 mb-4" />
             <h3 className="text-xl font-bold">Bulk Cropper</h3>
-            <p className="text-gray-500 mt-2 text-sm">
-              Coming soon — batch crop multiple PDFs.
-            </p>
+            <p className="text-gray-500 mt-2 text-sm">Coming soon — batch crop multiple PDFs.</p>
           </motion.div>
         </div>
       )}
@@ -68,7 +66,7 @@ export default function FlipkartPage() {
       {/* Shipping */}
       {selected === "shipping" && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
-          <AutoCropper onSuccess={() => logUsage("Flipkart Cropper", "monthly")} /> {/* ✅ logs */}
+          <AutoCropper onSuccess={() => logUsage("Flipkart Cropper", "monthly")} />
           <button
             onClick={() => setSelected(null)}
             className="mt-6 bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg"
@@ -81,7 +79,7 @@ export default function FlipkartPage() {
       {/* Invoice */}
       {selected === "invoice" && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-6">
-          <InvoiceCropper onSuccess={() => logUsage("Invoice Cropper", "monthly")} /> {/* ✅ logs */}
+          <InvoiceCropper onSuccess={() => logUsage("Invoice Cropper", "monthly")} />
           <button
             onClick={() => setSelected(null)}
             className="mt-6 bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg"
@@ -93,11 +91,7 @@ export default function FlipkartPage() {
 
       {/* Bulk */}
       {selected === "bulk" && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-6 flex flex-col items-center"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-6 flex flex-col items-center">
           <Layers className="w-20 h-20 text-green-600 mb-4" />
           <h3 className="text-2xl font-bold text-gray-700">Bulk Cropper – Coming Soon</h3>
           <button

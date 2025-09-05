@@ -1,16 +1,22 @@
 "use client";
+
 import React, { useState } from "react";
 import { PDFDocument } from "pdf-lib";
 import HistoryPanel from "./HistoryPanel";
 
-export default function AutoCropper({ onSuccess }) {
+/**
+ * AutoCropper (JSX version)
+ * Props:
+ *   - onSuccess?: () => void   // optional; called after a successful crop+download
+ */
+export default function AutoCropper({ onSuccess } = {}) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [history, setHistory] = useState([]);
 
   const handleFiles = async (e) => {
-    const files = Array.from(e.target.files);
+    const files = Array.from(e.target.files || []);
     if (!files.length) return;
 
     setLoading(true);
@@ -29,7 +35,7 @@ export default function AutoCropper({ onSuccess }) {
           const { width, height } = page.getSize();
           const halfHeight = height / 2;
 
-          // ⚡ Crop top half + trim 90px bottom
+          // Crop TOP half of A4 and trim 36.5 px from its bottom (your requested value)
           const cropBox = {
             left: 0,
             bottom: halfHeight + 36.5,
@@ -39,60 +45,44 @@ export default function AutoCropper({ onSuccess }) {
 
           const [embeddedPage] = await outPdf.embedPages([page], [cropBox]);
 
-          // ✅ A5 Portrait (420x595)
-          const a5Width = 420;
-          const a5Height = 595;
-          const newPage = outPdf.addPage([a5Width, a5Height]);
+          // Target A5 page (portrait)
+          const A5_W = 420;
+          const A5_H = 595;
+          const newPage = outPdf.addPage([A5_W, A5_H]);
 
-          // 🔹 Scale to cover A5 (no small labels)
-          const scale = Math.max(
-            a5Width / embeddedPage.width,
-            a5Height / embeddedPage.height
-          );
-          const drawWidth = embeddedPage.width * scale;
-          const drawHeight = embeddedPage.height * scale;
+          // Scale to cover A5 (avoid tiny label)
+          const scale = Math.max(A5_W / embeddedPage.width, A5_H / embeddedPage.height);
+          const drawW = embeddedPage.width * scale;
+          const drawH = embeddedPage.height * scale;
+          const dx = (A5_W - drawW) / 2;
+          const dy = (A5_H - drawH) / 2;
 
-          const dx = (a5Width - drawWidth) / 2;
-          const dy = (a5Height - drawHeight) / 2;
-
-          newPage.drawPage(embeddedPage, {
-            x: dx,
-            y: dy,
-            width: drawWidth,
-            height: drawHeight,
-          });
+          newPage.drawPage(embeddedPage, { x: dx, y: dy, width: drawW, height: drawH });
         }
       }
 
-      // Save output
+      // Save and auto-download
       const pdfBytes = await outPdf.save();
       const blob = new Blob([pdfBytes], { type: "application/pdf" });
-      const fileName = `Flipkart-Label-${new Date()
-        .toISOString()
-        .slice(0, 19)}.pdf`;
+      const fileName = `Flipkart-Label-${new Date().toISOString().slice(0, 19)}.pdf`;
       const url = URL.createObjectURL(blob);
 
-      // Auto-download
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = fileName;
-      link.click();
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      a.click();
 
-      // Save to history
+      // Update history list
       setHistory((prev) => [
         ...prev,
         { file: fileName, date: new Date().toLocaleString(), url },
       ]);
 
-      // ✅ Mark success
       setSuccess(true);
-
-      // ✅ Trigger logging for dashboard
-      if (onSuccess) onSuccess();
-
+      if (onSuccess) onSuccess(); // <-- call the optional callback
     } catch (err) {
-      console.error("❌ Error:", err);
-      setError(err.message || "Unknown error");
+      console.error("❌ AutoCropper error:", err);
+      setError(err?.message || "Unknown error");
     } finally {
       setLoading(false);
     }
@@ -101,7 +91,7 @@ export default function AutoCropper({ onSuccess }) {
   return (
     <div className="p-8 border rounded-lg bg-white shadow-md max-w-2xl mx-auto">
       <h2 className="text-2xl font-bold text-blue-700 mb-4 text-center">
-        📦 Flipkart Shipping Label Cropper (A5 + 90px Trim)
+        📦 Flipkart Shipping Label Cropper (A5 + 36.5px Trim)
       </h2>
 
       <label className="cursor-pointer bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
@@ -131,7 +121,7 @@ export default function AutoCropper({ onSuccess }) {
 
       {error && <p className="mt-4 text-red-600 font-semibold">❌ {error}</p>}
 
-      {/* ✅ History Panel */}
+      {/* History panel */}
       <HistoryPanel history={history} />
     </div>
   );
