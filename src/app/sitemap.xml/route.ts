@@ -1,7 +1,7 @@
 // src/app/sitemap.xml/route.ts
 import { NextResponse } from "next/server";
 
-const base = "https://smeutools.vercel.app";
+const base = process.env.NEXT_PUBLIC_SITE_URL || "https://smeutools.vercel.app";
 
 function buildXml() {
   const urls = [
@@ -17,6 +17,7 @@ function buildXml() {
       (u) => `
   <url>
     <loc>${u.loc}</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>${u.changefreq}</changefreq>
     <priority>${u.priority}</priority>
   </url>`
